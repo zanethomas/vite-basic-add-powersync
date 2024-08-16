@@ -16,12 +16,14 @@ export const openDatabase = async () => {
     dbFilename: 'test.sqlite'
   }).getInstance();
 
+  console.log('connecting to database ...');
   await PowerSync.init();
   await PowerSync.connect(new DummyConnector());
+  console.log('connected to database');
 }
 
 export const insertItem = async (item) => {	
-  PowerSync.execute('INSERT INTO list(item) VALUES(?)', [item]);
+  return PowerSync.execute('INSERT INTO list(id, item) VALUES(uuid(), ?)', [item]);
 }
 
 export const loadItems = async () => {

@@ -1,6 +1,6 @@
 // This is the main entry point of the application
 
-import { openDatabase } from './connectors/powersync';
+import { openDatabase, loadItems, insertItem } from './connectors/powersync';
 let inputField;
 let itemList;
 
@@ -10,6 +10,10 @@ document.addEventListener('DOMContentLoaded', async event => {
  
 	inputField.addEventListener("keydown", keyDown);
 	await openDatabase();
+	await insertItem('test');
+	console.log('inserted');
+	let items = await loadItems();
+	console.log('items',items);
 });
 
 const keyDown = async (event) => {
