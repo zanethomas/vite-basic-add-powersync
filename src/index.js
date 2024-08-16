@@ -1,26 +1,29 @@
 // This is the main entry point of the application
 
-import { openDatabase, loadItems, insertItem } from './connectors/powersync';
+import { openDatabase, loadItems, insertItem, deleteAllItems } from './connectors/powersync';
 let inputField;
 let itemList;
+let clearButton;
 
 document.addEventListener('DOMContentLoaded', async event => {
 	inputField = document.getElementById("inputField");
 	itemList = document.getElementById("itemList");
+	clearButton = document.getElementById("clearButton");
  
 	inputField.addEventListener("keydown", keyDown);
+	clearButton.addEventListener("click", clearList);
 	await openDatabase();
-	await insertItem('test');
-	console.log('inserted');
 	let items = await loadItems();
 	console.log('items',items);
 });
 
 const keyDown = async (event) => {
 	if (event.key === "Enter") {
-		const item = document.createElement("li");
-		item.innerText = inputField.value;
-		itemList.appendChild(item);
+		insertItem(inputField.value);
 		inputField.value = "";
 	}
+}
+
+async function clearList() {
+	await deleteAllItems();
 }

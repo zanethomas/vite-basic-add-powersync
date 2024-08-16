@@ -9,6 +9,11 @@
 	width: 300px;
 }
 
+#listWrapper {
+	margin-top: 20px;
+	width:fit-content;
+	min-width:400pxl
+}
 #itemList {
 	margin-top: 20px;
 	list-style-type: none;
