@@ -1,4 +1,4 @@
-import { WASQLitePowerSyncDatabaseOpenFactory, Schema, Table, Column, ColumnType } from '@powersync/web';
+import { PowerSyncDatabase, Schema, Table, Column, ColumnType } from '@powersync/web';
 import DummyConnector from './dummy';
 
 export const AppSchema = new Schema([
@@ -11,7 +11,7 @@ export const AppSchema = new Schema([
 let PowerSync;
 
 export const openDatabase = async () => {
-  PowerSync = new WASQLitePowerSyncDatabaseOpenFactory({
+  PowerSync = new PowerSyncDatabase({
     schema: AppSchema,
     dbFilename: 'test.sqlite'
   }).getInstance();
