@@ -8,7 +8,8 @@ const AppSchema = new Schema([
   }),
 ]);
 
-let PowerSync;
+export let PowerSync;
+
 
 export const openDatabase = async () => {
   PowerSync = new PowerSyncDatabase({

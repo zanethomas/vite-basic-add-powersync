@@ -1,4 +1,9 @@
 
+header {
+	padding: 10px 0;
+	font-size: larger;
+}
+
 #wrapper {
 	margin: 0 auto;
 	width: 80%;
@@ -10,12 +15,12 @@
 }
 
 #listWrapper {
-	margin-top: 20px;
+	margin-top: 0px;
 	width:fit-content;
 	min-width:400pxl
 }
 #itemList {
-	margin-top: 20px;
+	margin-top: 0px;
 	list-style-type: none;
 	padding-left: 0;
 }
