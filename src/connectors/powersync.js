@@ -11,7 +11,7 @@ const AppSchema = new Schema([
 export let PowerSync;
 
 
-export const openDatabase = async () => {
+export const connect = async () => {
   PowerSync = new PowerSyncDatabase({
     schema: AppSchema,
     database: {
@@ -19,10 +19,10 @@ export const openDatabase = async () => {
     }
   })
 
-  console.log('connecting to database ...');
+  console.log('connecting to powersync ...');
   await PowerSync.init();
   await PowerSync.connect(new DummyConnector());
-  console.log('connected to database');
+  console.log('connected to powersync');
 }
 
 export const insertItem = async (item) => {
