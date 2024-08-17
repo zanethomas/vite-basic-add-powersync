@@ -1,7 +1,7 @@
 // This is the main entry point of the application
 
 import { PowerSync } from "@/connectors/powersync";
-import { openDatabase, insertItem, updateItem, deleteAllItems } from "@/database";
+import { openDatabase, insertItem, updateItem, deleteAllItems } from "./database";
 
 let inputField;
 let itemList;

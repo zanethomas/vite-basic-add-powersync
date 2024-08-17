@@ -1,8 +1,8 @@
 import { connect, PowerSync } from '@/connectors/powersync';
-
+import {schema} from './schema';
 
 export const openDatabase = async () => {
-	await connect();
+	await connect(schema, 'add-powersync.sqlite');
 }
 
 export const insertItem = async (item) => {

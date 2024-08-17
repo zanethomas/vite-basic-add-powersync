@@ -1,21 +1,14 @@
-import { PowerSyncDatabase, Schema, Table, Column, ColumnType } from '@powersync/web';
+import { PowerSyncDatabase } from '@powersync/web';
 import DummyConnector from './dummy';
-
-const AppSchema = new Schema([
-  new Table({
-    name: "list",
-    columns: [new Column({ name: "item", type: ColumnType.TEXT })],
-  }),
-]);
 
 export let PowerSync;
 
 
-export const connect = async () => {
+export const connect = async (schema, filename) => {
   PowerSync = new PowerSyncDatabase({
-    schema: AppSchema,
+    schema,
     database: {
-      dbFilename: 'test.sqlite'
+      dbFilename: filename
     }
   })
 
