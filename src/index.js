@@ -44,6 +44,7 @@ const itemClick = async (event) => {
   if (id) {
     editingId = id;
     inputField.value = item;
+	 inputField.focus();
   }
 };
 
