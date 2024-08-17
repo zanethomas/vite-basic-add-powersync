@@ -6,6 +6,4 @@ export default class DummyConnector {
       token: "",
     };
   }
-
-  async uploadData(database) {}
 }
