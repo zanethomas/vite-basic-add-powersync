@@ -6,11 +6,11 @@ export const openDatabase = async () => {
 }
 
 export const insertItem = async (item) => {
-  return PowerSync.execute('INSERT INTO list(id, item) VALUES(uuid(), ?)', [item]);
+  return PowerSync.execute("INSERT INTO list(id, item) VALUES(uuid(), ?) RETURNING *", [item]);
 }
 
 export const loadItems = async () => {
-  return await PowerSync.getAll('SELECT * FROM list');
+  return PowerSync.getAll('SELECT * FROM list');
 };
 
 export const updateItem = async (id, item) => {

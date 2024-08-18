@@ -1,12 +1,17 @@
 // This is the main entry point of the application
 
-import { PowerSync } from "@/connectors/powersync";
-import { openDatabase, insertItem, updateItem, deleteAllItems } from "@/database";
+import {
+  openDatabase,
+  insertItem,
+  updateItem,
+  deleteAllItems,
+} from "@/database";
+import { loadItems } from "./database";
 
 let inputField;
 let itemList;
 let clearButton;
-let editingId;
+let editing;
 
 document.addEventListener("DOMContentLoaded", async (event) => {
   inputField = document.getElementById("inputField");
@@ -18,60 +23,54 @@ document.addEventListener("DOMContentLoaded", async (event) => {
   clearButton.addEventListener("click", clearList);
 
   await openDatabase();
-
-  watchList(updateList);
+  await loadItems().then((rows) => {
+    console.log(rows);
+    populateList(rows);
+    inputField.placeholder = "Type something and press Enter";
+    inputField.disabled = false;
+  });
 });
-
-const abortController = new AbortController();
-
-async function watchList(updateList) {
-  for await (const update of PowerSync.watch("SELECT * from list", [], {
-    signal: abortController.signal,
-  })) {
-    updateList(update);
-  }
-}
-
-const updateList = (update) => {
-  console.log("update", update);
-  resetListElement();
-  populateList(update.rows._array);
-};
 
 const itemClick = async (event) => {
   const item = event.target.innerText;
   const id = event.target.id;
   if (id) {
-    editingId = id;
+    editing = event.target;
     inputField.value = item;
-	 inputField.focus();
+    inputField.focus();
   }
 };
 
 const keyDown = async (event) => {
   if (event.key === "Enter") {
-    if (!editingId) {
-      insertItem(inputField.value);
+    if (!editing) {
+      const rval = await insertItem(inputField.value);
+
+      appendItem(rval.rows._array[0]);
     } else {
-      updateItem(editingId, inputField.value);
+      updateItem(editing.id, inputField.value);
+      editing.innerText = inputField.value;
+      editing = null;
     }
     inputField.value = "";
   }
 };
 
-const resetListElement = () => {
-  itemList.innerHTML = "";
-};
-
 const populateList = (rows) => {
   for (const row of rows) {
-    const li = document.createElement("li");
-    li.id = row.id;
-    li.innerText = row.item;
-    itemList.appendChild(li);
+    appendItem(row);
   }
 };
 
 async function clearList() {
   await deleteAllItems();
+  itemList.innerHTML = "";
 }
+
+const appendItem = (row) => {
+  const li = document.createElement("li");
+
+  li.id = row.id;
+  li.innerText = row.item;
+  itemList.appendChild(li);
+};
